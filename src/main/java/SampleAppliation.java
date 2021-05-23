@@ -1,13 +1,11 @@
 
-import di.component.DumbComponent;
-import di.config.ApplicationConfig;
-import di.config.DumbConfig;
-import di.model.Car;
-import di.model.Request;
-import di.repository.DumbRepository;
-import di.service.DumbService;
-import di.service.RequestService;
-import di.service.SampleService;
+import refueling.component.DumbComponent;
+import refueling.config.DumbConfig;
+import refueling.model.Request;
+import refueling.repository.DumbRepository;
+import refueling.service.DumbService;
+import refueling.service.RequestService;
+import refueling.service.SampleService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 
@@ -21,7 +19,7 @@ import org.springframework.context.annotation.*;
 public class SampleAppliation {
 
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class, di.config.ApplicationConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class, refueling.config.ApplicationConfig.class);
         //ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class);
         SampleService sampleService = context.getBean(SampleService.class);
         RequestService requestService = context.getBean(RequestService.class);
