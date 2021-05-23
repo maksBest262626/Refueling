@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +19,8 @@ import java.util.Random;
 @Scope("prototype")
 public class RequestService {
 
+    @Autowired
+    private DataSource dataSource;
     @Autowired
     private Car car;
     @Autowired
@@ -29,5 +36,17 @@ public class RequestService {
         Request request = new Request(car,nowFG,car.toFull());
         nowFG.setState(false);
         return request.toString();
+    }
+
+    public void Test() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from championat");
+            while (resultSet.next()){
+                Integer id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                System.out.println(id + " " + name + ";");
+            }
+        }
     }
 }
