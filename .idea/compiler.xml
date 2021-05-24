@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Refueling" />
+        <module name="Refueling_jdbc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
       <module name="Refueling" target="11" />
+      <module name="Refueling_jdbc" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

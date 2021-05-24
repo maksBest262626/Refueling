@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Refueling.iml" filepath="$PROJECT_DIR$/Refueling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Refueling_jdbc/Refueling_jdbc.iml" filepath="$PROJECT_DIR$/Refueling_jdbc/Refueling_jdbc.iml" />
     </modules>
   </component>
 </project>

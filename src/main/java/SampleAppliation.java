@@ -1,7 +1,7 @@
 
-import refueling.component.DumbComponent;
+import refueling.component.FuelGetterRowMapper;
 import refueling.config.DumbConfig;
-import refueling.config.JdbcConfig;
+import refueling.config.SpringDataConfig;
 import refueling.model.Request;
 import refueling.repository.DumbRepository;
 import refueling.service.DumbService;
@@ -15,15 +15,15 @@ import java.sql.SQLException;
 @Configuration
 @ComponentScan(basePackageClasses = {
         DumbConfig.class,
-        JdbcConfig.class,
+        SpringDataConfig.class,
         DumbService.class,
        // Car.class,
-        DumbComponent.class,
+        FuelGetterRowMapper.class,
         DumbRepository.class})
 public class SampleAppliation {
 
     public static void main(String[] args) throws SQLException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class, refueling.config.ApplicationConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class, refueling.config.ApplicationConfig.class, refueling.config.SpringDataConfig.class);
         //ApplicationContext context = new AnnotationConfigApplicationContext(SampleAppliation.class);
         SampleService sampleService = context.getBean(SampleService.class);
         RequestService requestService = context.getBean(RequestService.class);
@@ -37,7 +37,7 @@ public class SampleAppliation {
 //        System.out.println(req.toString());
 //        System.out.println(requestService.start());
 
-        requestService = context.getBean(RequestService.class);
+       /* requestService = context.getBean(RequestService.class);
         System.out.println(requestService.start());
         requestService = context.getBean(RequestService.class);
         System.out.println(requestService.start());
@@ -46,10 +46,15 @@ public class SampleAppliation {
         requestService = context.getBean(RequestService.class);
         System.out.println(requestService.start());
         requestService = context.getBean(RequestService.class);
-        System.out.println(requestService.start());
+        System.out.println(requestService.start());*/
 
+        /*requestService = context.getBean(RequestService.class);
+        requestService.Test();*/ // Это тест простейшего чтения из бд с помощью jdbc без спринга
+
+       /* requestService = context.getBean(RequestService.class);
+        requestService.TestWithTemplate();*/ // Это тест чтения из бд с помощью jdbcTemplate, и rowMapper
         requestService = context.getBean(RequestService.class);
-        requestService.Test();
+        requestService.printFuelGetters();
 
         assert sampleService != null;
     }

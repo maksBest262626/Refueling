@@ -20,37 +20,37 @@ public class ApplicationConfig {
     @Bean("fg1")
     public FuelGetter getfg1() {
         FuelGetter fg = new FuelGetter();
-        fg.StandartInit(1);
+        fg.standartInit("fg1");
         return fg;
     }
     @Bean("fg2")
     public FuelGetter getfg2() {
         FuelGetter fg = new FuelGetter();
-        fg.StandartInit(2);
+        fg.standartInit("fg2");
         return fg;
     }
     @Bean("fg3")
     public FuelGetter getfg3() {
         FuelGetter fg = new FuelGetter();
-        fg.StandartInit(3);
+        fg.standartInit("fg3");
         return fg;
     }
     @Bean("fg4")
     public FuelGetter getfg4() {
         FuelGetter fg = new FuelGetter();
-        fg.StandartInit(4);
+        fg.standartInit("fg4");
         return fg;
     }
     @Bean("fg5")
     public FuelGetter getfg5() {
         FuelGetter fg = new FuelGetter();
-        fg.StandartInit(5);
+        fg.standartInit("fg5");
         return fg;
     }
     @Bean
     @Scope("prototype")
     public Request request() {
-        Request request = new Request(getCar(),getfg1(),getCar().toFull());
+        Request request = new Request(null,getCar(),getfg1(),getCar().toFull(),getCar().toFull());
         return request;
     }
 }

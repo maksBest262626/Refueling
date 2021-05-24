@@ -1,9 +1,29 @@
 package refueling.model;
 
+import refueling.Type;
+
+import javax.persistence.*;
 import java.util.HashSet;
 
+@Entity
+@Table(name = "fuelgetter")
 public class FuelGetter {
-    private int number;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Transient
+    private HashSet<Type> typeSet;
+
+    @Transient
+    private Boolean state;
+
+    public FuelGetter() {
+    }
 
     public Boolean getState() {
         return state;
@@ -12,21 +32,14 @@ public class FuelGetter {
     public void setState(Boolean state) {
         this.state = state;
     }
-
-    private HashSet<Type> typeSet;
-    private Boolean state;
-
-    public FuelGetter() {
-    }
-
-    public FuelGetter(int number, HashSet<Type> typeSet, Boolean state) {
-        this.number = number;
+    public FuelGetter(String name, HashSet<Type> typeSet, Boolean state) {
+        this.name = name;
         this.typeSet = typeSet;
         this.state= state;
     }
 
-    public void StandartInit(int number) {
-        this.number = number;
+    public void standartInit(String name) {
+        this.name = name;
         this.typeSet = new HashSet<>();
         this.typeSet.add(Type.Ai_92);
         this.typeSet.add(Type.Ai_95);
@@ -34,6 +47,15 @@ public class FuelGetter {
         this.typeSet.add(Type.Diesel_Summer);
         this.typeSet.add(Type.Diesel_Winter);
         this.state = true;
+    }
+
+    @Override
+    public String toString() {
+        return "FuelGetter{" +
+                "name='" + name + '\'' +
+                ", typeSet=" + typeSet +
+                ", state=" + state +
+                '}';
     }
 
     public void addTypeFuel(Type fuel){
@@ -44,16 +66,16 @@ public class FuelGetter {
         return this.typeSet.contains(fuel);
     }
 
-    public int getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
     public HashSet<Type> getTypeSet() {
         return typeSet;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumber(String name) {
+        this.name = name;
     }
 
     public void setTypeSet(HashSet<Type> typeSet) {

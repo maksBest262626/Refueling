@@ -1,18 +1,25 @@
 package refueling.service;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.support.TransactionTemplate;
+import refueling.component.FuelGetterRowMapper;
 import refueling.model.Car;
 import refueling.model.FuelGetter;
 import refueling.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import refueling.repository.FuelGetterRepository;
+import refueling.repository.RequestRepository;
 
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -20,7 +27,13 @@ import java.util.Random;
 public class RequestService {
 
     @Autowired
-    private DataSource dataSource;
+    private RequestRepository requestRepository;
+    @Autowired
+    private FuelGetterRepository fuelGetterRepository;
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+    @Autowired
+    private FuelGetterRowMapper fuelGetterRowMapper;
     @Autowired
     private Car car;
     @Autowired
@@ -33,20 +46,20 @@ public class RequestService {
         while (!nowFG.getState()) {
             nowFG = fuelGetterList.get(rnd.nextInt(fuelGetterList.size()));
         }
-        Request request = new Request(car,nowFG,car.toFull());
+        Request request = new Request(null,car,nowFG,car.toFull(), car.toFull());
         nowFG.setState(false);
         return request.toString();
     }
 
-    public void Test() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from championat");
-            while (resultSet.next()){
-                Integer id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                System.out.println(id + " " + name + ";");
-            }
+    @Transactional
+    public void  printFuelGetters() {
+        List<FuelGetter> fuelGetter = fuelGetterRepository.findAll();
+        for (FuelGetter fg:
+             fuelGetter) {
+            fg.standartInit(fg.getName());
+            System.out.println(fg.toString());
         }
+
     }
+
 }

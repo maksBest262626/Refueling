@@ -1,15 +1,28 @@
 package refueling.model;
 
 
+import refueling.Type;
+
+import javax.persistence.*;
 import java.util.Random;
 
-//@Component
+@Entity
+@Table(name = "car")
 public class Car {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "mark")
     private String mark;
+    @Column(name = "model")
     private String model;
+    @Column(name = "fuel")
     private Type fuel;
+    @Column(name = "volume")
     private double volume;
+    @Column(name = "balance")
     private double balance;
 
 
@@ -56,7 +69,8 @@ public class Car {
         return balance;
     }
 
-    public Car(String mark, String model, Type fuel, double volume, double balance) {
+    public Car(Integer id, String mark, String model, Type fuel, double volume, double balance) {
+        this.id = id;
         this.mark = mark;
         this.model = model;
         this.fuel = fuel;
