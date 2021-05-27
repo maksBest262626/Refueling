@@ -10,12 +10,14 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+   // @ManyToOne
+   // @JoinColumn(name = "client")
+    @Transient
     private Car client;
 
-    @ManyToOne
-    @JoinColumn(name = "fuelgetter_id")
+   // @ManyToOne
+   // @JoinColumn(name = "fuelgetter")
+   @Transient
     private FuelGetter fuelGetter;
 
     @Column(name = "countOfFuel")
@@ -35,10 +37,14 @@ public class Request {
     public Request() {
     }
 
-
+    @Override
     public String toString() {
-        return client.getMark()+" "+client.getModel()+" Buy fuel= "+client.getFuel()+" count:"+this.countOfFuel+" FUEL GETTER NAME=:"+this.fuelGetter.getName();
+        return "Request{" +
+                "id=" + id +
+                ", client=" + client +
+                ", fuelGetter=" + fuelGetter +
+                ", countOfFuel=" + countOfFuel +
+                ", money=" + money +
+                '}';
     }
-
-
 }

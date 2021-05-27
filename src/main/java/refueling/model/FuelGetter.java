@@ -4,10 +4,12 @@ import refueling.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
+
 
 @Entity
 @Table(name = "fuelgetter")
-public class FuelGetter {
+public class FuelGetter implements Runnable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,10 @@ public class FuelGetter {
 
     @Transient
     private Boolean state;
+
+
+    @Transient
+    private Car client;
 
     public FuelGetter() {
     }
@@ -80,6 +86,27 @@ public class FuelGetter {
 
     public void setTypeSet(HashSet<Type> typeSet) {
         this.typeSet = typeSet;
+    }
+
+    public void setClient(Car client) {
+        this.client = client;
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            this.setState(Boolean.FALSE);
+            Integer time = (int)this.client.toFull()*3;
+            System.out.println("Заправка на колонке " + this.getName() + " Началась!");
+            System.out.println("Длительность заправки: " + time + " сек.");
+            TimeUnit.SECONDS.sleep(time);
+            System.out.println("Заправка на колонке " + this.getName() + " Завершилась!");
+            this.setState(Boolean.TRUE);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
     }
 }
 

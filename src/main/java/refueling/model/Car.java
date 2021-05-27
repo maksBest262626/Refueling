@@ -1,14 +1,18 @@
 package refueling.model;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import refueling.Type;
+import refueling.service.RequestService;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Entity
 @Table(name = "car")
-public class Car {
+public class Car implements Runnable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +28,10 @@ public class Car {
     private double volume;
     @Column(name = "balance")
     private double balance;
+
+    @Transient
+    @Autowired
+    private RequestService requestService;
 
 
     public Car() {
@@ -108,4 +116,47 @@ public class Car {
         return this.volume-this.balance;
     }
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", mark='" + mark + '\'' +
+                ", model='" + model + '\'' +
+                ", fuel=" + fuel +
+                ", volume=" + volume +
+                ", balance=" + balance +
+                '}';
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Calendar c = Calendar.getInstance();
+                Integer dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                Integer time = 5;
+              //  if (dayOfWeek != 1 && dayOfWeek != 6 && dayOfWeek != 7) { time +=10; }
+                // Если не суббота, пятница, воскресенье то меньше клиентов будет.
+
+              //  Integer hourOfDay = c.get(Calendar.HOUR_OF_DAY);
+              //  if (hourOfDay >=6 && hourOfDay <=9 || hourOfDay >=17 && hourOfDay <= 20) { } else { time +=10; }
+                // Если не час пик то клиента придется ждать еще дольше.
+
+             //   time += requestService.getPricePercent()*3*time/100;
+                //С каждым процентом наценки покупателей становится на три процента меньше.
+
+                TimeUnit.SECONDS.sleep(time);
+                System.out.println("Приехал новый клиент!!!");
+                this.Init();
+                requestService.addClient(this);
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public RequestService getRequestService() {
+        return requestService;
+    }
 }
