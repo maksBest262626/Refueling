@@ -30,6 +30,7 @@ public class SampleAppliation {
         requestService.setPrice(40);
         requestService.setPricePercent(10);
         new Thread(client).start();
+        new Thread(requestService).start();
         System.out.println("Бензозаправочная станция отрыта! Ожидаем клиента :)");
 
        /* requestService = context.getBean(RequestService.class);

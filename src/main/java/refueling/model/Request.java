@@ -10,15 +10,19 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-   // @ManyToOne
-   // @JoinColumn(name = "client")
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "id_client")
     private Car client;
 
-   // @ManyToOne
-   // @JoinColumn(name = "fuelgetter")
-   @Transient
+    @ManyToOne
+    @JoinColumn(name = "id_fg")
     private FuelGetter fuelGetter;
+
+    @Transient
+    private Integer id_fg;
+
+
+
 
     @Column(name = "countOfFuel")
     private Double countOfFuel;
@@ -32,6 +36,7 @@ public class Request {
         this.fuelGetter = fuelGetter;
         this.countOfFuel = countOfFuel;
         this.money = money;
+        this.id_fg = this.fuelGetter.getId();
     }
 
     public Request() {

@@ -1,7 +1,6 @@
 package refueling.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -15,13 +14,10 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 import refueling.model.Car;
-import refueling.model.FuelGetter;
-import refueling.repository.FuelGetterRepository;
 import refueling.repository.RequestRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Properties;
 
 @Configuration

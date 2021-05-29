@@ -22,20 +22,24 @@ public class Car implements Runnable{
     private String mark;
     @Column(name = "model")
     private String model;
-    @Column(name = "fuel")
+
+    @Transient
     private Type fuel;
     @Column(name = "volume")
     private double volume;
     @Column(name = "balance")
     private double balance;
 
+    @Column(name = "fuel")
+    private String fuelType;
+
     @Transient
     @Autowired
     private RequestService requestService;
 
-
     public Car() {
     }
+
 
     public void setMark(String mark) {
         this.mark = mark;
@@ -92,6 +96,7 @@ public class Car implements Runnable{
         this.fuel = getRandomType();
         this.volume = 30+rnd.nextInt(30);
         this.balance = getVolume()- rnd.nextInt((int)getVolume()-20) - 10;
+        this.fuelType= this.fuel.toString();
     }
 
     private Type getRandomType() {
@@ -135,20 +140,21 @@ public class Car implements Runnable{
                 Calendar c = Calendar.getInstance();
                 Integer dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
                 Integer time = 5;
-              //  if (dayOfWeek != 1 && dayOfWeek != 6 && dayOfWeek != 7) { time +=10; }
+                if (dayOfWeek != 1 && dayOfWeek != 6 && dayOfWeek != 7) { time +=10; }
                 // Если не суббота, пятница, воскресенье то меньше клиентов будет.
 
-              //  Integer hourOfDay = c.get(Calendar.HOUR_OF_DAY);
-              //  if (hourOfDay >=6 && hourOfDay <=9 || hourOfDay >=17 && hourOfDay <= 20) { } else { time +=10; }
+                Integer hourOfDay = c.get(Calendar.HOUR_OF_DAY);
+                if (hourOfDay >=6 && hourOfDay <=9 || hourOfDay >=17 && hourOfDay <= 20) { } else { time +=10; }
                 // Если не час пик то клиента придется ждать еще дольше.
 
-             //   time += requestService.getPricePercent()*3*time/100;
+                time += requestService.getPricePercent()*3*time/100;
                 //С каждым процентом наценки покупателей становится на три процента меньше.
 
                 TimeUnit.SECONDS.sleep(time);
                 System.out.println("Приехал новый клиент!!!");
-                this.Init();
-                requestService.addClient(this);
+                Car client = new Car();
+                client.Init();
+                requestService.addClient(client);
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

@@ -13,6 +13,7 @@ public class FuelGetter implements Runnable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@OneToMany
     private Integer id;
 
     @Column(name = "name")
@@ -90,6 +91,10 @@ public class FuelGetter implements Runnable {
 
     public void setClient(Car client) {
         this.client = client;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     @Override
